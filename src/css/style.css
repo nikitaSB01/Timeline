@@ -30,6 +30,8 @@
     max-width: 100%;
     box-sizing: border-box;
     position: relative; /* Для размещения даты в правом верхнем углу */
+    /*  display: flex;
+    flex-direction: column; */
 }
 /* Стиль для заголовка поста */
 .post__header {
@@ -154,11 +156,28 @@ video {
     margin-top: 10px;
 }
 
-.post {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    max-width: 100%;
-    box-sizing: border-box;
+.post__video {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center; /* Центрирование по вертикали */
+    justify-content: space-between; /* Пространство между элементами */
+    height: 100%; /* Убедитесь, что высота контейнера позволяет центровать */
+}
+
+.videoPlayer {
+    max-width: 60%;
+    margin: 0 auto; /* Центрирует элемент по горизонтали */
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.post__video .post__header {
+    align-self: flex-end; /* Закрепление к нижнему краю строки */
+    margin-left: auto; /* Отправляет элемент к правому краю */
+}
+
+.post__video .post__geo {
+    align-self: flex-start; /* Закрепление к верхнему краю строки */
+    margin-right: auto; /* Отправляет элемент к левому краю */
 }
