@@ -7,6 +7,9 @@ const okButton = document.getElementById("okButton");
 const cancelButton = document.getElementById("cancelButton");
 const coordinatesInput = document.getElementById("coordinatesInput");
 
+let isRecordingAudio = false;
+let isRecordingVideo = false;
+
 // Функция для запроса координат
 function requestCoordinates() {
   const postText = postInput.value.trim();
@@ -121,17 +124,19 @@ function addPostWithVideo(videoBlob, latitude, longitude) {
 videoRecordButton.addEventListener("click", async () => {
   stream = await navigator.mediaDevices.getUserMedia({
     video: true,
-    audio: true, // Включаем запись звука
+    audio: true,
   });
   mediaRecorder = new MediaRecorder(stream);
   videoChunks = [];
+  isRecordingVideo = true;
 
   // Отобразить видео в реальном времени в модальном окне без звука
   videoElement.srcObject = stream;
-  videoElement.muted = true; // Отключаем звук для отображения в реальном времени
+  videoElement.muted = true;
   videoElement.play();
 
   modalVideo.style.display = "flex"; // Показать модальное окно записи видео
+  stopVideoRecordingButton.focus(); // Установить фокус на кнопке "Остановить запись"
 
   mediaRecorder.addEventListener("dataavailable", (event) => {
     videoChunks.push(event.data);
@@ -139,14 +144,14 @@ videoRecordButton.addEventListener("click", async () => {
 
   mediaRecorder.start();
 
-  stopVideoRecordingButton.addEventListener("click", () => {
+  function stopVideoRecording() {
     if (mediaRecorder && mediaRecorder.state === "recording") {
       mediaRecorder.stop();
     }
+    isRecordingVideo = false;
     mediaRecorder.onstop = async () => {
       const videoBlob = new Blob(videoChunks, { type: "video/mp4" });
 
-      // Запрашиваем координаты и добавляем пост
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
@@ -159,11 +164,18 @@ videoRecordButton.addEventListener("click", async () => {
         }
       );
 
-      // Остановить поток камеры и очистить источник видео
       stream.getTracks().forEach((track) => track.stop());
       videoElement.srcObject = null;
     };
+  }
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && isRecordingVideo) {
+      stopVideoRecording();
+    }
   });
+
+  stopVideoRecordingButton.addEventListener("click", stopVideoRecording);
 });
 
 //! ......... ЛОГИКА ДЛЯ ЗАПИСИ АУДИО .......
@@ -209,11 +221,11 @@ audioRecordButton.addEventListener("click", async () => {
   audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
   mediaRecorder = new MediaRecorder(audioStream);
   audioChunks = [];
+  isRecordingAudio = true;
 
-  // Показать индикатор записи
   recordingIndicator.style.display = "block";
-
   modalAudio.style.display = "flex"; // Показать модальное окно записи аудио
+  stopAudioRecordingButton.focus(); // Установить фокус на кнопке "Остановить запись"
 
   mediaRecorder.addEventListener("dataavailable", (event) => {
     audioChunks.push(event.data);
@@ -221,30 +233,37 @@ audioRecordButton.addEventListener("click", async () => {
 
   mediaRecorder.start();
 
-  stopAudioRecordingButton.addEventListener("click", () => {
+  function stopAudioRecording() {
     if (mediaRecorder && mediaRecorder.state === "recording") {
       mediaRecorder.stop();
     }
+    isRecordingAudio = false;
     mediaRecorder.onstop = async () => {
       const audioBlob = new Blob(audioChunks, { type: "audio/mp3" });
 
-      // Запрашиваем координаты и добавляем пост
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
           addPostWithAudio(audioBlob, latitude, longitude);
           modalAudio.style.display = "none";
-          recordingIndicator.style.display = "none"; // Скрыть индикатор после остановки записи
+          recordingIndicator.style.display = "none";
         },
         () => {
           addPostWithAudio(audioBlob, "Неизвестная", "локация");
           modalAudio.style.display = "none";
-          recordingIndicator.style.display = "none"; // Скрыть индикатор после остановки записи
+          recordingIndicator.style.display = "none";
         }
       );
 
-      // Остановить поток микрофона и скрыть индикатор записи
       audioStream.getTracks().forEach((track) => track.stop());
     };
+  }
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && isRecordingAudio) {
+      stopAudioRecording();
+    }
   });
+
+  stopAudioRecordingButton.addEventListener("click", stopAudioRecording);
 });

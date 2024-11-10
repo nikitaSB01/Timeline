@@ -1,3 +1,14 @@
+body {
+    color: #7aafec;
+    font-family: "Roboto", sans-serif;
+    font-size: 20px;
+    line-height: 1.6;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(74, 73, 73, 0.2);
+    letter-spacing: 1px;
+    text-transform: capitalize;
+}
+
 /* Основной контейнер */
 .container {
     display: flex;
@@ -7,6 +18,8 @@
     margin: 0 auto;
     padding: 20px;
     box-sizing: border-box;
+    background-image: url(../img/16.\ Город.jpg);
+    border-radius: 15px;
 }
 
 /* Контейнер для постов */
@@ -30,8 +43,7 @@
     max-width: 100%;
     box-sizing: border-box;
     position: relative; /* Для размещения даты в правом верхнем углу */
-    /*  display: flex;
-    flex-direction: column; */
+    background-color: rgba(90, 76, 88, 0.5);
 }
 /* Стиль для заголовка поста */
 .post__header {
@@ -42,7 +54,7 @@
 /* Стиль для даты и времени */
 .post__date {
     font-size: 12px;
-    color: #888;
+    color: #7aafec;
 }
 .p {
     margin: 0;
@@ -50,6 +62,8 @@
 .post__text {
     padding-bottom: 10px;
     font-size: 18px;
+    color: #0587f8;
+
 }
 .post__geo {
     font-size: 12px;
