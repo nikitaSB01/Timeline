@@ -7,22 +7,15 @@
     <!-- <link rel="stylesheet" href="css/style.css" /> -->
   </head>
   <body>
-    <div class="container">
-      <!-- Контейнер для постов -->
-      <div class="container__posts"></div>
-      <!-- Контейнер для ввода текста и кнопок -->
-      <div class="container__input">
-        <!-- Поле для ввода текста -->
-        <input
-          type="text"
-          id="postInput"
-          placeholder="Введите текст поста..."
-        />
-        <!-- Кнопки для записи аудио и видео -->
-        <div class="container__buttons">
-          <button id="audioRecordButton">🎙️ Записать аудио</button>
-          <button id="videoRecordButton">📹 Записать видео</button>
-        </div>
+    <!-- Контейнер для постов -->
+    <div class="container__posts"></div>
+
+    <!-- Контейнер для ввода текста и кнопок -->
+    <div class="container__input">
+      <input type="text" id="postInput" placeholder="Введите текст поста..." />
+      <div class="container__buttons">
+        <button id="audioRecordButton">🎙️ Записать аудио</button>
+        <button id="videoRecordButton">📹 Записать видео</button>
       </div>
     </div>
 
@@ -30,11 +23,7 @@
     <div class="modal" id="coordinateModal" style="display: none">
       <div class="modal__content">
         <p>Что-то пошло не так</p>
-        <p>
-          К сожалению, нам не удалось определить ваше местоположение.
-          Пожалуйста, дайте разрешение на использование геолокации, либо введите
-          координаты вручную.
-        </p>
+        <p>К сожалению, не удалось определить ваше местоположение.</p>
         <label for="coordinatesInput">Широта и долгота через запятую</label>
         <input
           type="text"
@@ -61,11 +50,9 @@
     <div class="modal" id="audioRecordingModal" style="display: none">
       <div class="modal__content">
         <p>Идет запись аудио...</p>
-        <audio class="audio" controls></audio>
+        <div class="recording-indicator">🔴 Запись...</div>
         <button id="stopAudioRecordingButton">Остановить запись</button>
       </div>
     </div>
-
-    <!--  <script src="./index.js"></script> -->
   </body>
 </html>

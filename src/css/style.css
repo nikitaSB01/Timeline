@@ -181,3 +181,16 @@ video {
     align-self: flex-start; /* Закрепление к верхнему краю строки */
     margin-right: auto; /* Отправляет элемент к левому краю */
 }
+
+.recording-indicator {
+    font-size: 18px;
+    color: red;
+    animation: blink 1s step-start infinite;
+    margin-top: 10px;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
